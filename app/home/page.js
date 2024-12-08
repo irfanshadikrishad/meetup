@@ -12,6 +12,7 @@ import { MdDelete } from "react-icons/md";
 const Page = () => {
     const { user, authenticate } = useAuth();
     const [slots, setSlots] = useState([])
+
     console.log(user);
 
     const [loggedInUser, setLoggedInUser] = useState({});
@@ -79,6 +80,7 @@ const Page = () => {
                 } else {
                     console.log(response);
                     toast.error(response.error)
+
                 }
             } else {
                 console.log(`user id missed`);
