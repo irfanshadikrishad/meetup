@@ -2,8 +2,10 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MdEdit, MdCheck } from "react-icons/md";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 export default function Slots() {
   const { id } = useParams();
@@ -22,7 +24,9 @@ export default function Slots() {
     user_limit: false,
   });
 
-  const [message, setMessage] = useState(null);
+
+  const [message, setMessage] = useState(null); // For success or error messages
+
 
   // Fetch Slot Details
   async function getSlotDetails() {
@@ -49,6 +53,7 @@ export default function Slots() {
   // Update Slot Details
   async function updateSlotDetails() {
     try {
+
       const request = await fetch(`/api/slot`, {
         method: "PUT",
         headers: {
@@ -73,6 +78,7 @@ export default function Slots() {
     } catch (error) {
       console.error("Error updating slot:", error);
     }
+
   }
 
   // Handle Input Changes
@@ -110,16 +116,20 @@ export default function Slots() {
             <input
               type="text"
               name="name"
+
               value={slotter.name ? slotter.name : ""}
+
               onChange={handleInputChange}
               disabled={!editState.name}
               className={`w-full px-4 py-2 border rounded-md ${editState.name ? "bg-white" : "bg-gray-200 cursor-not-allowed"
                 }`}
             />
+
             {/* <MdEdit
               className="text-[20px] text-blue-500 cursor-pointer"
               onClick={() => toggleEdit("name")}
             /> */}
+
           </div>
         </div>
 
