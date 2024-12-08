@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
     const { user, authenticate } = useAuth();
-
+    const [slots, setSlots] = useState([])
     console.log(user);
 
     const [loggedInUser, setLoggedInUser] = useState({});
@@ -28,7 +28,6 @@ const Page = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Submitted:", formData);
-
         if (!user || !user.id) {
             console.log("User is not authenticated.");
             return; // Prevent submission if user is not authenticated
@@ -53,7 +52,8 @@ const Page = () => {
             console.log(response);
 
             if (request.status === 200) {
-                toast.success(`Slot created successfully.`);
+                toast.success(`Slot created successfully.`)
+                getUsersSlots()
             } else {
                 toast.error(`Error creating slot.`);
             }
@@ -63,8 +63,32 @@ const Page = () => {
         }
     };
 
+    async function getUsersSlots() {
+        try {
+            if (user?.id) {
+                const request = await fetch(`/api/slot/user`, {
+                    method: "POST",
+                    headers: { "Content-Type": "appliation/json" },
+                    body: JSON.stringify({ id: user.id }),
+                });
+                const response = await request.json();
+                if (request.status === 200) {
+                    setSlots(response)
+                } else {
+                    console.log(response);
+                    toast.error(response.error)
+                }
+            } else {
+                console.log(`user id missed`);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         if (user) {
+            getUsersSlots();
             setLoggedInUser(user);
         } else {
             authenticate();
@@ -84,13 +108,15 @@ const Page = () => {
             <div className="flex flex-col m-10 gap-6 md:flex-row w-full max-w-4xl items-center">
                 {/* Image Section */}
                 <div className="w-full md:w-1/2 flex -ml-[50px]">
-                    <Image
-                        src={image}
-                        alt="Logo"
-                        width={500}
-                        height={500}
-                        className="max-w-full"
-                    />
+                    {/* Cards */}
+                    <div style={{ display: "grid", gap: "5px" }}>
+                        {slots.length > 0 && slots.map((slo, idx) => {
+                            return <Link href={`/slot/${slo.id}`} className="w-[full] rounded-[5px] bg-primary text-black p-10" key={idx} >
+                                <p className="text-[18px] font-bold">Host Name: {slo.name}</p>
+                                <p className="text-[18px] font-semibold">Event id: {slo.id}</p>
+                            </Link>
+                        })}
+                    </div>
                 </div>
 
                 {/* Form Section */}
