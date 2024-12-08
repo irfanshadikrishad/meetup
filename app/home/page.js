@@ -81,6 +81,7 @@ const Page = () => {
 
     const deleteSlot = async (slotID) => {
         try {
+
             const response = await fetch(`/api/slot`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -96,6 +97,7 @@ const Page = () => {
             }
         } catch (error) {
             console.error(error);
+
         }
     };
 
@@ -137,6 +139,7 @@ const Page = () => {
                                             <button onClick={() => deleteSlot(slot.id)}>
                                                 <MdDelete className="text-[28px] text-[#ff2f2f]" />
                                             </button>
+
                                         </div>
                                     </div>
                                 ))
@@ -188,11 +191,13 @@ const Page = () => {
                         </div>
                     </div>
                 </div>
+
             ) : (
                 <Guests />
             )}
             <ToastContainer />
         </Container>
+
     );
 };
 

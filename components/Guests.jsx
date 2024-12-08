@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Link from "next/link";
 
@@ -86,8 +87,10 @@ const Guests = () => {
                     </p>
                 )}
             </div>
+
         </div>
     );
 };
 
 export default Guests;
+
