@@ -3,53 +3,14 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
-import { toast,ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  function handleInputChange(e) {
-    const { name, value } = e.target;
-    setUser((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  async function submitLogin(e) {
-    e.preventDefault()
-    try {
-      const request = await fetch(`/api/auth/login`,{
-        method:"POST",
-        headers:{
-         "Content-Type": "application/json"
-        },
-        body:JSON.stringify({email:user.email, password:user.password})
-      })
-      const response = await request.json()
-     
-      if(request.status === 200){
-        toast.success(`Login successfull.`)
-      }else{
-        toast.error(response.error)
-      }
-      
-    } catch (error) {
-      console.log(error);
-      
-    }
-  }
 
   return (
     <div className="bg-[#ffffff] ">
@@ -61,18 +22,13 @@ const Login = () => {
               Sign up to access your account
             </p>
           </div>
-          <form onSubmit={(e)=>{submitLogin(e)}} className="space-y-6">
+          <form className="space-y-6">
             <div className="space-y-4">
               <div>
                 <label htmlFor="email" className="block  mb-2 text-sm">
                   Email address
                 </label>
                 <input
-                  name="email"
-                  value={user.email}
-                  onChange={(e) => {
-                    handleInputChange(e);
-                  }}
                   type="email"
                   id="email"
                   required
@@ -87,11 +43,6 @@ const Login = () => {
                 </label>
                 <div className="relative mt-2">
                   <input
-                    name="password"
-                    value={user.password}
-                    onChange={(e) => {
-                      handleInputChange(e);
-                    }}
                     type={showPassword ? "text" : "password"}
                     id="password"
                     required
@@ -172,7 +123,6 @@ const Login = () => {
           </Link>
         </div>
       </div>
-      <ToastContainer/>
     </div>
   );
 };
