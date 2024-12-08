@@ -58,7 +58,7 @@ const Page = () => {
                                 type="text"
                                 name="hostName"
                                 // value={formData.hostName}
-                                value={user.name} disabled
+                                value={user && user.name ? user.name : ""} disabled
                                 onChange={handleInputChange}
                                 required
                                 placeholder="Enter Host Name"
