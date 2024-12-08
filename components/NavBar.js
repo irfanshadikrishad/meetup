@@ -43,14 +43,14 @@ const NavBar = () => {
             </div>
 
             <div>
-              <button className="p-[8px] bg-[#000000] text-white rounded-[10px]">
+              <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
                 <Link className="" href="/register">
                   Register
                 </Link>
               </button>
             </div>
             <div>
-              <button className="p-[8px] bg-[#000000] text-white rounded-[10px]">
+              <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
                 <Link className="" href="/login">
                   Log in
                 </Link>

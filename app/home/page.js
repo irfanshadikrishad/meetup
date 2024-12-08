@@ -7,6 +7,7 @@ import { useAuth } from "../../store/auth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Container from "../../components/Container";
+import { MdDelete } from "react-icons/md";
 
 const Page = () => {
     const { user, authenticate } = useAuth();
@@ -112,28 +113,40 @@ const Page = () => {
 
 
                 <div className="bg-[#ffffff] my-10">
-                    <div className="flex flex-col  gap-6 md:flex-row w-full  ">
+                    <div className="flex flex-col  gap-6 md:flex-row w-full   ">
                         {/* Image Section */}
                         <div className="w-full md:w-1/2 ">
                             {/* Cards */}
                             <div style={{ display: "grid", gap: "5px" }}>
                                 {slots.length > 0 && slots.map((slo, idx) => {
-                                    return <Link href={`/slot/${slo.id}`} className="w-[full] rounded-[5px] bg-primary h-[150px] text-black p-6" key={idx} >
+                                    return <div className="w-[full] rounded-[5px] bg-secondary h-[200px] text-black p-6" key={idx} >
                                         <p className="text-[18px] font-bold">Host Name: {slo.name}</p>
                                         <p className="text-[18px] font-bold">Event date: {slo.date}</p>
                                         <p className="text-[18px] font-bold">Event id: {slo.time_limit} min</p>
 
-
-
-
                                         <p className="text-[18px] font-semibold">Event id: {slo.id}</p>
-                                    </Link>
+
+
+                                        <div className="flex  items-center justify-between">
+
+                                            <div>
+
+                                                <button className="p-2 mt-2 bg-[#A594F9] text-black font-bold rounded-[5px]"> <Link href={`/slot/${slo.id}`}>View details</Link></button>
+
+                                            </div>
+
+
+                                            <div>
+                                                <button>  <MdDelete className="text-[28px] text-[#ff2f2f]" /></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 })}
                             </div>
                         </div>
 
                         {/* Form Section */}
-                        <div className="w-full md:w-1/2 flex flex-col  rounded-md sm:p-10 bg-gray-100 text-gray-900">
+                        <div className="w-full md:w-1/2 flex flex-col h-[700px]  rounded-md sm:p-10 bg-gray-100 text-gray-900">
                             <div className="mb-8 text-center">
                                 <h1 className="my-3 text-4xl font-bold">Create a Slot</h1>
                                 <p className="text-sm text-gray-400">
