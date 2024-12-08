@@ -5,8 +5,6 @@ export async function POST(request: Request) {
     const { host_id, name, slotDate, slotTimeLimit, slotUserLimit } =
       await request.json();
 
-    console.log(host_id, name, slotDate, slotTimeLimit, slotUserLimit);
-
     const { data, error } = await supabase.from("slots").insert([
       {
         host_id,
@@ -16,13 +14,14 @@ export async function POST(request: Request) {
         time_limit: slotTimeLimit,
       },
     ]);
-    if (error) {
+    if (data === null) {
+      return new Response(JSON.stringify(data), { status: 200 });
+    }else{
       return new Response(
-        JSON.stringify({ error: `${(error as Error).message}` }),
+        JSON.stringify({ error: `${(error as Error).message}` }),{status:400}
       );
     }
-    return new Response(JSON.stringify(data), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify(`${(error as Error).message}`));
+    return new Response(JSON.stringify(`${(error as Error).message}`), {status: 500});
   }
 }

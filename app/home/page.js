@@ -4,6 +4,9 @@ import Link from "next/link";
 import image from "../../app/Image/imagphone.png";
 import Image from "next/image";
 import { useAuth } from "../../store/auth";
+import { toast , ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Page = () => {
     const { user, authenticate } = useAuth();
@@ -46,11 +49,10 @@ const Page = () => {
             const response = await request.json();
             console.log(response);
 
-            // Handle successful response here
-            if (response.success) {
-                alert("Slot created successfully!");
+            if (request.status === 200) {
+               toast.success(`Slot created successfully.`)
             } else {
-                alert("Failed to create slot.");
+                toast.error(`Error creating slot.`)
             }
 
         } catch (error) {
@@ -185,6 +187,7 @@ const Page = () => {
                     </Link>
                 </div>
             </div>
+            <ToastContainer/>
         </div>
     );
 };
