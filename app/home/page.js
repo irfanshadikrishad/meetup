@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Container from "../../components/Container";
 import { MdDelete } from "react-icons/md";
+import Guests from "../../components/Guests";
 
 const Page = () => {
     const { user, authenticate } = useAuth();
@@ -258,7 +259,7 @@ const Page = () => {
         </>
     ) : (
 
-        <div>You are not authorized to create a slot.</div>
+        <Guests />
     );
 };
 
