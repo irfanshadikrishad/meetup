@@ -9,10 +9,10 @@ import { useAuth } from "../../store/auth";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [user, setUser] = useState({ email: "", password: "" })
+  const [user, setUser] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const { storeTokenInLS, deleteTokenInLS } = useAuth()
+  const { storeTokenInLS, deleteTokenInLS } = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,7 +25,6 @@ const Login = () => {
       [name]: value,
     }));
   }
-
 
   const router = useRouter(); // Initialize the router
 
@@ -45,8 +44,7 @@ const Login = () => {
       if (request.status === 200) {
         toast.success(`Login successfull.`);
         storeTokenInLS(response.token);
-        router.push('/home');
-
+        router.push("/home");
       } else {
         toast.error(response.error);
       }
@@ -78,7 +76,9 @@ const Login = () => {
                 </label>
                 <input
                   value={user.email}
-                  onChange={(e) => { handleInputChange(e) }}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                  }}
                   name="email"
                   type="email"
                   id="email"
@@ -97,7 +97,7 @@ const Login = () => {
                     name="password"
                     value={user.password}
                     onChange={(e) => {
-                      handleInputChange(e)
+                      handleInputChange(e);
                     }}
                     type={showPassword ? "text" : "password"}
                     id="password"
@@ -132,7 +132,6 @@ const Login = () => {
           </div>
 
           {error && <p className="text-red-600 mt-[8px]"> {error}</p>}
-
 
           {/* Login with social account */}
           <div className="flex items-center pt-4 space-x-1">
