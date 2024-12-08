@@ -7,12 +7,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
+  const [user, setUser] = useState({email, password})
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -70,11 +67,9 @@ const Login = () => {
                   Email address
                 </label>
                 <input
-                  name="email"
-                  value={user.email}
-                  onChange={(e) => {
-                    handleInputChange(e);
-                  }}
+                value={user.email}
+                onChange={(e)=>{handleInputChange(e)}}
+                name="email"
                   type="email"
                   id="email"
                   required
@@ -89,11 +84,11 @@ const Login = () => {
                 </label>
                 <div className="relative mt-2">
                   <input
-                    name="password"
-                    value={user.password}
-                    onChange={(e) => {
-                      handleInputChange(e);
-                    }}
+                  name="password"
+                  value={user.password}
+                  onChange={(e)=>{
+                    handleInputChange(e)
+                  }}
                     type={showPassword ? "text" : "password"}
                     id="password"
                     required

@@ -21,10 +21,16 @@ const NavBar = () => {
     <div className="bg-primary p-2">
       <Container>
         <div className="flex justify-between">
-          <div className="flex items-center">
-            <Image src={logo} alt="Logo" width={45} height={50} />
-            <h3 className="text-lg -ml-[5px] font-semibold">Meet Up</h3>
-          </div>
+
+          <Link href='/'>
+
+            <div className="flex items-center">
+              <Image src={logo} alt="Logo" width={45} height={50} />
+              <h3 className="text-lg -ml-[5px] font-semibold">eet Up</h3>
+            </div>
+
+          </Link>
+
 
           <div className="flex justify-between items-center gap-2">
             <div className="flex items-center  space-x-2 text-sm">
@@ -33,13 +39,13 @@ const NavBar = () => {
                             <p>{time.dayOfWeek}</p>
                             <p>{time.day}</p>
                             <p>{time.month}</p> */}
-              <p>{getFormattedDateTime()}</p>
+              <p className="text-[18px] font-bold mr-2">{getFormattedDateTime()}</p>
             </div>
 
             <div>
               <button className="p-[8px] bg-[#000000] text-white rounded-[10px]">
                 <Link className="" href="/register">
-                  Register now
+                  Register
                 </Link>
               </button>
             </div>
