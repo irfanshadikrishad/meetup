@@ -2,6 +2,8 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MdEdit, MdCheck } from "react-icons/md";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Slots() {
   const { id } = useParams();
@@ -20,7 +22,7 @@ export default function Slots() {
     user_limit: false,
   });
 
-  const [message, setMessage] = useState(null); // For success or error messages
+  const [message, setMessage] = useState(null);
 
   // Fetch Slot Details
   async function getSlotDetails() {
@@ -47,28 +49,30 @@ export default function Slots() {
   // Update Slot Details
   async function updateSlotDetails() {
     try {
-      const request = await fetch(`/api/slot/update`, {
-        method: "POST",
+      const request = await fetch(`/api/slot`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...slotter }),
+        body: JSON.stringify({ id:slotter.id,
+          name:slotter.name,
+          date:slotter.date,
+          time_limit:slotter.time_limit,
+          user_limit:slotter.user_limit
+         }),
       });
 
       const response = await request.json();
       if (request.status === 200) {
-        setMessage({ type: "success", text: "Slot details updated successfully." });
+        toast.success(`Updated successfully.`)
+        getSlotDetails()
       } else {
-        setMessage({ type: "error", text: "Failed to update slot details." });
         console.error(response);
+        toast.error(response.error)
       }
     } catch (error) {
-      setMessage({ type: "error", text: "Error updating slot details." });
       console.error("Error updating slot:", error);
     }
-
-    // Clear the message after 3 seconds
-    setTimeout(() => setMessage(null), 3000);
   }
 
   // Handle Input Changes
@@ -106,16 +110,16 @@ export default function Slots() {
             <input
               type="text"
               name="name"
-              value={slotter.name}
+              value={slotter.name ? slotter.name : ""}
               onChange={handleInputChange}
               disabled={!editState.name}
               className={`w-full px-4 py-2 border rounded-md ${editState.name ? "bg-white" : "bg-gray-200 cursor-not-allowed"
                 }`}
             />
-            <MdEdit
+            {/* <MdEdit
               className="text-[20px] text-blue-500 cursor-pointer"
               onClick={() => toggleEdit("name")}
-            />
+            /> */}
           </div>
         </div>
 
@@ -201,6 +205,7 @@ export default function Slots() {
           </button>
         </div>
       </div>
+      <ToastContainer/>
     </section>
   );
 }

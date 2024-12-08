@@ -67,22 +67,33 @@ export async function DELETE(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const { id, slot_time, slot_status } = await request.json();
+    // Parse the request body
+    const { 
+      id, 
+      slot_time, 
+      slot_status, 
+      time_limit, 
+      user_limit, 
+      date 
+    } = await request.json();
 
-    if (!id || !slot_time || !slot_status) {
+    // Validate if the required fields (id) are provided
+    if (!id) {
       return new Response(
         JSON.stringify({
-          error: "Slot ID, slot_time, and slot_status are required",
+          error: "Slot ID is required",
         }),
         { status: 400 },
       );
     }
 
+    // Update the slot in Supabase
     const { data, error } = await supabase
       .from("slots")
       .update({
-        slot_time: slot_time,
-        slot_status: slot_status,
+        date: date,
+        time_limit:time_limit,
+        user_limit:user_limit
       })
       .eq("id", id);
 
@@ -92,19 +103,20 @@ export async function PUT(request: Request) {
       });
     }
 
+    // Check if the slot was not found
     if (data && data === null) {
       return new Response(JSON.stringify({ error: "Slot not found" }), {
         status: 404,
       });
     }
 
+    // Return a success response with updated data
     return new Response(
       JSON.stringify({ message: "Slot updated successfully", data }),
-      {
-        status: 200,
-      },
+      { status: 200 },
     );
   } catch (error) {
+    // Handle unexpected errors
     return new Response(
       JSON.stringify({ error: `${(error as Error).message}` }),
       { status: 500 },
