@@ -68,14 +68,8 @@ export async function DELETE(request: Request) {
 export async function PUT(request: Request) {
   try {
     // Parse the request body
-    const { 
-      id, 
-      slot_time, 
-      slot_status, 
-      time_limit, 
-      user_limit, 
-      date 
-    } = await request.json();
+    const { id, slot_time, slot_status, time_limit, user_limit, date } =
+      await request.json();
 
     // Validate if the required fields (id) are provided
     if (!id) {
@@ -92,8 +86,8 @@ export async function PUT(request: Request) {
       .from("slots")
       .update({
         date: date,
-        time_limit:time_limit,
-        user_limit:user_limit
+        time_limit: time_limit,
+        user_limit: user_limit,
       })
       .eq("id", id);
 
