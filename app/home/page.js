@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Container from "../../components/Container";
 import { MdDelete } from "react-icons/md";
+import Guests from "../../components/Guests";
 
 const Page = () => {
     const { user, authenticate } = useAuth();
@@ -92,25 +93,25 @@ const Page = () => {
 
     async function deleteSlot(slotID) {
         try {
-            const request = await fetch(`/api/slot`,{
-                method:"DELETE",
-                headers:{
-                    "Content-Type":"application/json"
+            const request = await fetch(`/api/slot`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                body:JSON.stringify({id:slotID})
+                body: JSON.stringify({ id: slotID })
             })
             const response = await request.json()
             console.log(response);
-            if(request.status === 200){
+            if (request.status === 200) {
                 toast.success(`Slot ${slotID} deleted successfully.`)
                 getUsersSlots()
-            }else{
+            } else {
                 toast.error(response.error)
             }
-            
+
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 
@@ -134,7 +135,10 @@ const Page = () => {
 
     return user.role === "host" ? (
         <>
+
             <Container>
+
+
                 <div className="bg-[#ffffff] my-10">
                     <div className="flex flex-col  gap-6 md:flex-row w-full   ">
                         {/* Image Section */}
@@ -160,7 +164,7 @@ const Page = () => {
 
 
                                             <div>
-                                                <button onClick={()=>{deleteSlot(slo.id)}}>  <MdDelete className="text-[28px] text-[#ff2f2f]" /></button>
+                                                <button onClick={() => { deleteSlot(slo.id) }}>  <MdDelete className="text-[28px] text-[#ff2f2f]" /></button>
                                             </div>
                                         </div>
                                     </div>
@@ -279,7 +283,7 @@ const Page = () => {
         </>
     ) : (
 
-        <div>You are not authorized to create a slot.</div>
+        <Guests />
     );
 };
 
