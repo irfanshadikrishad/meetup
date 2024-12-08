@@ -21,10 +21,16 @@ const NavBar = () => {
     <div className="bg-primary p-2">
       <Container>
         <div className="flex justify-between">
-          <div className="flex items-center">
-            <Image src={logo} alt="Logo" width={45} height={50} />
-            <h3 className="text-lg -ml-[5px] font-semibold">eet Up</h3>
-          </div>
+
+          <Link href='/'>
+
+            <div className="flex items-center">
+              <Image src={logo} alt="Logo" width={45} height={50} />
+              <h3 className="text-lg -ml-[5px] font-semibold">eet Up</h3>
+            </div>
+
+          </Link>
+
 
           <div className="flex justify-between items-center gap-2">
             <div className="flex items-center  space-x-2 text-sm">

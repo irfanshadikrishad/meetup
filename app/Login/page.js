@@ -17,9 +17,9 @@ const Login = () => {
       <div className="flex justify-center items-center min-h-screen">
         <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
           <div className="mb-8 text-center">
-            <h1 className="my-3 text-4xl font-bold">Sign in</h1>
+            <h1 className="my-3 text-4xl font-bold">Sign up</h1>
             <p className="text-sm text-gray-400">
-              Sign in to access your account
+              Sign up to access your account
             </p>
           </div>
           <form className="space-y-6">
@@ -93,7 +93,7 @@ const Login = () => {
 
           <p className="px-6 text-sm text-center text-gray-400">
             Don&apos;t have an account yet?{" "}
-            <Link href="/register">
+            <Link href="/signup">
               <span className="hover:underline hover:text-[#4185a4] text-gray-600">
                 Sign up
               </span>

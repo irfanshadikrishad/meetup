@@ -38,13 +38,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="">
+    <div className="bg-gray-100">
       {/* Welcome Section */}
       <Container>
 
 
 
-        <section className="text-center bg-gray-100 p-6  rounded-md shadow-md h-[500px] flex justify-center items-center">
+        <section className="text-center bg-gray-100 p-6    h-[500px] flex justify-center items-center">
 
           <div className="">
             <h1 className="text-3xl font-bold text-[#41a6d4]">Welcome to Our Booking Platform!</h1>
@@ -58,7 +58,7 @@ export default function Home() {
 
 
         {/* Carousel Section */}
-        <section className="mt-8 bg-white rounded-md shadow-md">
+        <section className="mt-8 bg-white py-8 rounded-[4px] ">
           <h2 className="text-2xl font-bold  text-center justify-center text-gray-800">Explore Our Features</h2>
           <div className="relative  mt-5">
             <div className="overflow-hidden  h-[150px]">
@@ -95,21 +95,21 @@ export default function Home() {
         </section>
 
         {/* Guest View Section */}
-        <section className="mt-12 bg-gray-100 p-6 rounded-md shadow-md">
+        <section className="mt-12 bg-gray-100 p-6  ">
           <h2 className="text-2xl font-bold text-center text-gray-800">Guest View</h2>
           <p className="mt-3 text-center text-gray-700">
             As a guest, you can explore our slots, view detailed availability, and secure bookings without signing up.
           </p>
           <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="p-4 bg-white rounded-md shadow-md">
+            <div className="p-4 bg-white  ">
               <h3 className="text-lg font-semibold text-[#41a6d4]">Browse Available Slots</h3>
               <p className="text-gray-600">See what times are open and book instantly.</p>
             </div>
-            <div className="p-4 bg-white rounded-md shadow-md">
+            <div className="p-4 bg-white  ">
               <h3 className="text-lg font-semibold text-[#41a6d4]">Customizable Preferences</h3>
               <p className="text-gray-600">Filter slots by your preferred date and time.</p>
             </div>
-            <div className="p-4 bg-white rounded-md shadow-md">
+            <div className="p-4 bg-white  ">
               <h3 className="text-lg font-semibold text-[#41a6d4]">Instant Confirmation</h3>
               <p className="text-gray-600">Get immediate confirmation of your booking.</p>
             </div>
@@ -117,12 +117,12 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="mt-12 text-center bg-[#41a6d4] text-white p-6 rounded-md shadow-md">
+        <section className="mt-12 text-center bg-[#41a6d4] text-white p-6  ">
           <h2 className="text-2xl font-bold">Ready to Book?</h2>
           <p className="mt-3">
             Take control of your schedule. Sign up or book as a guest today!
           </p>
-          <button className="mt-5 px-6 py-3 bg-white text-[#41a6d4] rounded-md shadow-md hover:bg-gray-200 font-semibold">
+          <button className="mt-5 px-6 py-3 bg-white text-[#41a6d4]   hover:bg-gray-200 font-semibold">
             Book Your Slot
           </button>
         </section>
