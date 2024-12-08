@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -70,20 +72,32 @@ const Login = () => {
         if (!validateForm()) return;
 
         try {
-            const request = await fetch(`/api/auth`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: user.name,
-                    email: user.email,
-                    password: user.password,
-                    role: selectedRole,
-                }),
-            });
-            const response = await request.json();
-            console.log(response);
+            if (user.password !== user.c_password) {
+                toast.error(`Password did not match.`)
+            } else {
+                const request = await fetch(`/api/auth`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: user.name,
+                        email: user.email,
+                        password: user.password,
+                        role: selectedRole,
+                    }),
+                });
+                const response = await request.json();
+                console.log(response);
+
+                if (request.status === 200) {
+                    toast.success(`Registration success.`)
+                } else {
+                    console.log(error);
+                    toast.error(response.error)
+                }
+            }
+
         } catch (error) {
             console.log(error);
         }
@@ -292,6 +306,7 @@ const Login = () => {
                     </Link>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
