@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
-import { toast,ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,26 +27,24 @@ const Login = () => {
   }
 
   async function submitLogin(e) {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const request = await fetch(`/api/auth/login`,{
-        method:"POST",
-        headers:{
-         "Content-Type": "application/json"
+      const request = await fetch(`/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({email:user.email, password:user.password})
-      })
-      const response = await request.json()
-     
-      if(request.status === 200){
-        toast.success(`Login successfull.`)
-      }else{
-        toast.error(response.error)
+        body: JSON.stringify({ email: user.email, password: user.password }),
+      });
+      const response = await request.json();
+
+      if (request.status === 200) {
+        toast.success(`Login successfull.`);
+      } else {
+        toast.error(response.error);
       }
-      
     } catch (error) {
       console.log(error);
-      
     }
   }
 
@@ -61,7 +58,12 @@ const Login = () => {
               Sign up to access your account
             </p>
           </div>
-          <form onSubmit={(e)=>{submitLogin(e)}} className="space-y-6">
+          <form
+            onSubmit={(e) => {
+              submitLogin(e);
+            }}
+            className="space-y-6"
+          >
             <div className="space-y-4">
               <div>
                 <label htmlFor="email" className="block  mb-2 text-sm">
@@ -172,7 +174,7 @@ const Login = () => {
           </Link>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
