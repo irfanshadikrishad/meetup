@@ -110,7 +110,7 @@ const Page = () => {
     }, [user, authenticate]);
 
     if (!user || !user.role) {
-        return <div>Loading...</div>;
+        return <div className="flex justify-center items-center my-9"><span className="loading loading-spinner loading-lg"></span></div>;
     }
 
     return (

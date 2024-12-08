@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Container from "../components/Container";
+import { useAuth } from "../store/auth";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -39,6 +41,28 @@ export default function Home() {
     }, 3000); // Change slide every 3 seconds
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
+
+
+
+  const { user, authenticate, isLoggedIn } = useAuth();
+
+  const route = useRouter();
+
+  if (isLoggedIn) {
+    return (
+      <div>
+
+        {
+          route.push('/home')
+        }
+
+
+      </div>
+    )
+  }
+
+
+
 
   return (
     <div className="bg-gray-100">
