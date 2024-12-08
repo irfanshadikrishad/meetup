@@ -93,7 +93,7 @@ const Login = () => {
             if(request.status === 200){
                 toast.success(`Registration success.`)
             }else{
-                console.log(error);
+                console.log(response.error);
                 toast.error(response.error)
             }
             }
