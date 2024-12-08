@@ -8,7 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState("");
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [errors, setErrors] = useState({});
     const [selectedRole, setSelectedRole] = useState("");
     const [user, setUser] = useState({
         name: "",
@@ -19,15 +20,57 @@ const Login = () => {
     });
 
     const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
+        setShowPassword((prev) => !prev);
     };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword((prev) => !prev);
+    };
+
+
 
     const handleRoleChange = (e) => {
         setSelectedRole(e.target.value);
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!user.name.trim()) {
+            newErrors.name = "Name is required.";
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!user.email.trim()) {
+            newErrors.email = "Email is required.";
+        } else if (!emailRegex.test(user.email)) {
+            newErrors.email = "Invalid email format.";
+        }
+
+        if (!user.password) {
+            newErrors.password = "Password is required.";
+        } else if (user.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters.";
+        }
+
+        if (!user.c_password) {
+            newErrors.c_password = "Please confirm your password.";
+        } else if (user.password !== user.c_password) {
+            newErrors.c_password = "Passwords do not match.";
+        }
+
+        if (!selectedRole) {
+            newErrors.role = "Please select a role.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handlerSignUp = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
+
         try {
             if(user.password !== user.c_password){
                 toast.error(`Password did not match.`)
@@ -60,16 +103,16 @@ const Login = () => {
         }
     };
 
-    function handleInputChange(e) {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser((prev) => ({
             ...prev,
             [name]: value,
         }));
-    }
+    };
 
     return (
-        <div className="bg-[#ffffff]">
+        <div className="bg-[#ffffff] mt-5">
             <div className="flex justify-center items-center min-h-screen">
                 <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
                     <div className="mb-8 text-center">
@@ -80,22 +123,23 @@ const Login = () => {
                         <div className="space-y-4">
                             <div>
                                 <label htmlFor="name" className="block mb-2 text-sm">
-                                    Name<span className="text-red-600 ">*</span>
+                                    Name<span className="text-red-600">*</span>
                                 </label>
                                 <input
                                     onChange={handleInputChange}
                                     value={user.name}
-                                    type="name"
+                                    type="text"
                                     name="name"
                                     id="name"
-                                    required
-                                    placeholder="Enter Your name Here"
+                                    placeholder="Enter Your Name Here"
                                     className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900"
                                 />
+                                {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
                             </div>
+
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm">
-                                    Email address<span className="text-red-600 ">*</span>
+                                    Email address<span className="text-red-600">*</span>
                                 </label>
                                 <input
                                     onChange={handleInputChange}
@@ -103,15 +147,15 @@ const Login = () => {
                                     type="email"
                                     id="email"
                                     name="email"
-                                    required
                                     placeholder="Enter Your Email Here"
                                     className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900"
                                 />
+                                {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="password" className="text-sm mb-2">
-                                    Password<span className="text-red-600 ">*</span>
+                                    Password<span className="text-red-600">*</span>
                                 </label>
                                 <div className="relative mt-2">
                                     <input
@@ -120,9 +164,8 @@ const Login = () => {
                                         name="password"
                                         type={showPassword ? "text" : "password"}
                                         id="password"
-                                        required
                                         placeholder="*******"
-                                        className="w-full px-3 mt-[2px] py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900"
+                                        className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900"
                                     />
                                     <span
                                         onClick={togglePasswordVisibility}
@@ -131,31 +174,40 @@ const Login = () => {
                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                                     </span>
                                 </div>
+                                {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
                             </div>
 
+
+                            {/* confirm password setup */}
+
                             <div>
-                                <label htmlFor="confirmPassword" className="text-sm mb-2">
-                                    Confirm password<span className="text-red-600 ">*</span>
+                                <label htmlFor="c_password" className="text-sm mb-2">
+                                    Confirm Password<span className="text-red-600">*</span>
                                 </label>
                                 <div className="relative mt-2">
                                     <input
                                         onChange={handleInputChange}
                                         value={user.c_password}
                                         name="c_password"
-                                        type={showPassword ? "text" : "password"}
-                                        id="confirmPassword"
-                                        required
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        id="c_password"
                                         placeholder="*******"
-                                        className="w-full px-3 mt-[2px] py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900"
+                                        className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900"
                                     />
                                     <span
-                                        onClick={togglePasswordVisibility}
+                                        onClick={toggleConfirmPasswordVisibility}
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600"
                                     >
-                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                     </span>
                                 </div>
+                                {errors.c_password && <p className="text-red-600 text-sm mt-1">{errors.c_password}</p>}
                             </div>
+
+
+
+
+                            {/* Role setup */}
 
                             <div>
                                 <p className="text-sm">Select your role:</p>
@@ -189,6 +241,7 @@ const Login = () => {
                                         </label>
                                     </div>
                                 </div>
+                                {errors.role && <p className="text-red-600 text-sm mt-1">{errors.role}</p>}
                             </div>
                         </div>
 
@@ -208,9 +261,6 @@ const Login = () => {
                         </button>
                     </div>
 
-                    {error && <p className="text-red-600 mt-[8px]"> {error}</p>}
-
-                    {/* Sign up with social account */}
                     <div className="flex items-center pt-4 space-x-1">
                         <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
                         <p className="px-3 text-sm dark:text-gray-400">
@@ -225,7 +275,7 @@ const Login = () => {
                     </div>
 
                     <p className="px-6 text-sm text-center text-gray-400">
-                        Already have an account?{" "}
+                        Already have an account? {" "}
                         <Link href="/login">
                             <span className="hover:underline hover:text-[#4185a4] text-gray-600">
                                 Log in
@@ -259,5 +309,6 @@ const Login = () => {
             <ToastContainer/>
         </div>
     );
-  }
-export default Login
+};
+
+export default Login;
