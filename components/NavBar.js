@@ -46,11 +46,11 @@ const NavBar = () => {
 
 
                         <div>
-                            <button className='p-[8px] bg-[#000000] text-white rounded-[10px]'><Link className='' href='/register'>Register now</Link></button>
+                            <button className='p-[8px] bg-[#220256] text-white rounded-[10px]'><Link className='' href='/register'>Register</Link></button>
                         </div>
 
                         <div>
-                            <button className='p-[8px] bg-[#000000] text-white rounded-[10px]'><Link className='' href='/login'>Log in</Link></button>
+                            <button className='p-[8px]  bg-[#220256] text-white rounded-[10px]'><Link className='' href='/login'>Log in</Link></button>
                         </div>
                     </div>
                 </div>

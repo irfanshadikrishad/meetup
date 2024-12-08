@@ -7,10 +7,20 @@ import Link from 'next/link';
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
+    const [selectedRole, setSelectedRole] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const handleRoleChange = (e) => {
+        setSelectedRole(e.target.value);
+    };
+
+
+    const handlerSubmit = (e) = {
+
+    }
 
     return (
         <div className='bg-[#ffffff] '>
@@ -25,8 +35,20 @@ const Login = () => {
                     <form className='space-y-6'>
                         <div className='space-y-4'>
                             <div>
-                                <label htmlFor='email' className='block  mb-2 text-sm'>
-                                    Email address
+                                <label htmlFor='name' className='block mb-2 text-sm'>
+                                    Name<span className='text-red-600 '>*</span>
+                                </label>
+                                <input
+                                    type='name'
+                                    id='name'
+                                    required
+                                    placeholder='Enter Your name Here'
+                                    className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900'
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor='email' className='block mb-2 text-sm'>
+                                    Email address<span className='text-red-600 '>*</span>
                                 </label>
                                 <input
                                     type='email'
@@ -57,14 +79,71 @@ const Login = () => {
                                     </span>
                                 </div>
                             </div>
+
+                            <div>
+                                <label htmlFor='confirmPassword' className='text-sm mb-2'>
+                                    Confirm password<span className='text-red-600 '>*</span>
+                                </label>
+                                <div className='relative mt-2'>
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        id='confirmPassword'
+                                        required
+                                        placeholder='*******'
+                                        className='w-full px-3 mt-[2px] py-2 border rounded-md border-gray-300 focus:outline-[#cb6ce6] bg-gray-200 text-gray-900'
+                                    />
+                                    <span
+                                        onClick={togglePasswordVisibility}
+                                        className='absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600'
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p className='text-sm'>
+                                    Select your role:
+                                </p>
+                                <div className='flex space-x-6 mt-2'>
+                                    <div className='flex justify-center items-center'>
+                                        <input
+                                            type='radio'
+                                            id='host'
+                                            name='role'
+                                            value='host'
+                                            checked={selectedRole === 'host'}
+                                            onChange={handleRoleChange}
+                                            className='mr-2 rounded-full border-gray-300 text-[#41a6d4] focus:ring-[#cb6ce6]'
+                                        />
+                                        <label htmlFor='host' className='text-sm'>
+                                            Host
+                                        </label>
+                                    </div>
+                                    <div className='flex items-center justify-center'>
+                                        <input
+                                            type='radio'
+                                            id='guest'
+                                            name='role'
+                                            value='guest'
+                                            checked={selectedRole === 'guest'}
+                                            onChange={handleRoleChange}
+                                            className='mr-2 rounded-full border-gray-300 text-[#41a6d4] focus:ring-[#cb6ce6]'
+                                        />
+                                        <label htmlFor='guest' className='text-sm'>
+                                            Guest
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div>
                             <button
                                 type='submit'
-                                className='bg-[#41a6d4] hover:bg-[#4185a4] font-bold  w-full rounded-[25px] py-2 text-white'
+                                className='bg-[#41a6d4] hover:bg-[#4185a4] font-bold w-full rounded-[25px] py-2 text-white'
                             >
-                                Log in
+                                Sign up
                             </button>
                         </div>
                     </form>
@@ -77,11 +156,11 @@ const Login = () => {
 
                     {error && <p className='text-red-600 mt-[8px]'> {error}</p>}
 
-                    {/* Login with social account */}
+                    {/* Sign up with social account */}
                     <div className='flex items-center pt-4 space-x-1'>
                         <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
                         <p className='px-3 text-sm dark:text-gray-400'>
-                            Login with social accounts
+                            Sign up with social accounts
                         </p>
                         <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
                     </div>
@@ -92,10 +171,10 @@ const Login = () => {
                     </div>
 
                     <p className='px-6 text-sm text-center text-gray-400'>
-                        Don&apos;t have an account yet?{' '}
-                        <Link href='/signup'>
+                        Already have an account?{' '}
+                        <Link href='/login'>
                             <span className='hover:underline hover:text-[#4185a4] text-gray-600'>
-                                Sign up
+                                Log in
                             </span>
                         </Link>
                     </p>
