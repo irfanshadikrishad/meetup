@@ -6,11 +6,12 @@ import Container from "../components/Container";
 import { getCurrentTime, getFormattedDateTime } from "../utils/helpers"; // Import the function
 import Link from "next/link";
 import { useAuth } from "../store/auth";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [time, setTime] = useState(getFormattedDateTime);
-
-  const { user, authenticate } = useAuth();
+  const { user, authenticate, deleteTokenInLS} = useAuth();
+  const router = useRouter()
 
   useEffect(() => {
     // Update time every minute
@@ -57,16 +58,16 @@ const NavBar = () => {
                   </button>
                 </div>
                 <div>
-                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                  <button onClick={()=>{
+                    deleteTokenInLS()
+                    router.push('/login')
+                  }} className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
                     <Link className="" href="/login">
                       Log out
                     </Link>
                   </button>
                 </div>
-
-
               </> : <>
-
                 <div>
                   <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
                     <Link className="" href="/register">
