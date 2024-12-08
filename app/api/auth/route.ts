@@ -27,7 +27,6 @@ export async function POST(request: Request) {
     //     { status: 500 },
     //   );
     // }
-    
 
     if (existingUser?.id) {
       return new Response(

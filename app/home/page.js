@@ -1,15 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import image from "../../app/Image/imagphone.png";
 import Image from "next/image";
 import { useAuth } from "../../store/auth";
 
 const Page = () => {
-    const {user} = useAuth()
-
+    const { user, authenticate } = useAuth();
+    const [loggedInUser, setLoggedInUser] = useState({});
     const [formData, setFormData] = useState({
-        hostName: "",
+        host_id: "",
         slotDate: "",
         slotTimeLimit: "",
         slotUserLimit: "",
@@ -20,16 +20,58 @@ const Page = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Submitted:", formData);
+        if (!user || !user.id) {
+            console.log("User is not authenticated.");
+            return; // Prevent submission if user is not authenticated
+        }
+        
+        try {
+            const request = await fetch(`/api/slot`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    host_id: user.id, // Ensure host_id is correctly sent
+                    name: user.name,  // Ensure name is passed correctly
+                    slotDate: formData.slotDate,
+                    slotTimeLimit: formData.slotTimeLimit,
+                    slotUserLimit: formData.slotUserLimit,
+                }),
+            });
+            
+            const response = await request.json();
+            console.log(response);
+
+            // Handle successful response here
+            if (response.success) {
+                alert("Slot created successfully!");
+            } else {
+                alert("Failed to create slot.");
+            }
+
+        } catch (error) {
+            console.log("Error during API call:", error);
+            alert("An error occurred while creating the slot.");
+        }
     };
+
+    useEffect(() => {
+        if (user) {
+            setLoggedInUser(user);
+        } else {
+            authenticate();
+        }
+    }, [user, authenticate]);
 
     return (
         <div className="bg-[#ffffff] min-h-screen flex justify-center items-center">
             <div className="flex flex-col m-10 gap-6 md:flex-row w-full max-w-4xl items-center">
                 {/* Image Section */}
-                <div className="w-full md:w-1/2 flex   -ml-[50px]">
+                <div className="w-full md:w-1/2 flex -ml-[50px]">
                     <Image
                         src={image}
                         alt="Logo"
@@ -57,9 +99,8 @@ const Page = () => {
                             <input
                                 type="text"
                                 name="hostName"
-                                // value={formData.hostName}
-                                value={user && user.name ? user.name : ""} disabled
-                                onChange={handleInputChange}
+                                value={loggedInUser && loggedInUser.name ? loggedInUser.name : ""}
+                                disabled
                                 required
                                 placeholder="Enter Host Name"
                                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#41a6d4] bg-gray-200 text-gray-900"
