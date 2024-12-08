@@ -5,9 +5,12 @@ import logo from "../app/Image/logo.png";
 import Container from "../components/Container";
 import { getCurrentTime, getFormattedDateTime } from "../utils/helpers"; // Import the function
 import Link from "next/link";
+import { useAuth } from "../store/auth";
 
 const NavBar = () => {
   const [time, setTime] = useState(getFormattedDateTime);
+
+  const { user, authenticate } = useAuth();
 
   useEffect(() => {
     // Update time every minute
@@ -40,20 +43,48 @@ const NavBar = () => {
               </p>
             </div>
 
-            <div>
-              <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
-                <Link className="" href="/register">
-                  Register
-                </Link>
-              </button>
-            </div>
-            <div>
-              <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
-                <Link className="" href="/login">
-                  Log in
-                </Link>
-              </button>
-            </div>
+            {
+              user ? <>
+
+
+
+                <div>
+                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                    <Link className="" href="/">
+                      {user.name}
+
+                    </Link>
+                  </button>
+                </div>
+                <div>
+                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                    <Link className="" href="/login">
+                      Log out
+                    </Link>
+                  </button>
+                </div>
+
+
+              </> : <>
+
+                <div>
+                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                    <Link className="" href="/register">
+                      Register
+                    </Link>
+                  </button>
+                </div>
+                <div>
+                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                    <Link className="" href="/login">
+                      Log in
+                    </Link>
+                  </button>
+                </div>
+
+
+              </>
+            }
           </div>
         </div>
       </Container>
