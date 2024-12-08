@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import "./globals.css";
+import { AuthProvider } from "../store/auth";
 
 export const metadata = {
   title: "Meetup",
@@ -12,9 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <NavBar />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <NavBar />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

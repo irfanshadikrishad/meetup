@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import Link from "next/link";
 import image from "../../app/Image/imagphone.png";
 import Image from "next/image";
+import { useAuth } from "../../store/auth";
 
 const Page = () => {
+    const {user} = useAuth()
+
     const [formData, setFormData] = useState({
         hostName: "",
         slotDate: "",
-        slotId: "",
         slotTimeLimit: "",
         slotUserLimit: "",
     });
@@ -25,7 +27,7 @@ const Page = () => {
 
     return (
         <div className="bg-[#ffffff] min-h-screen flex justify-center items-center">
-            <div className="flex flex-col gap-6 md:flex-row w-full max-w-4xl items-center">
+            <div className="flex flex-col m-10 gap-6 md:flex-row w-full max-w-4xl items-center">
                 {/* Image Section */}
                 <div className="w-full md:w-1/2 flex   -ml-[50px]">
                     <Image
@@ -55,7 +57,8 @@ const Page = () => {
                             <input
                                 type="text"
                                 name="hostName"
-                                value={formData.hostName}
+                                // value={formData.hostName}
+                                value={user.name} disabled
                                 onChange={handleInputChange}
                                 required
                                 placeholder="Enter Host Name"
@@ -74,22 +77,6 @@ const Page = () => {
                                 value={formData.slotDate}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#41a6d4] bg-gray-200 text-gray-900"
-                            />
-                        </div>
-
-                        {/* Slot ID */}
-                        <div>
-                            <label htmlFor="slotId" className="block mb-2 text-sm">
-                                Slot ID
-                            </label>
-                            <input
-                                type="text"
-                                name="slotId"
-                                value={formData.slotId}
-                                onChange={handleInputChange}
-                                required
-                                placeholder="Enter Slot ID"
                                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#41a6d4] bg-gray-200 text-gray-900"
                             />
                         </div>

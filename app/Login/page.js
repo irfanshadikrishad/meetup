@@ -5,11 +5,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../store/auth";
 
 const Login = () => {
   const [user, setUser] = useState({email:"", password:""})
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const {storeTokenInLS} = useAuth()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -37,6 +39,8 @@ const Login = () => {
 
       if (request.status === 200) {
         toast.success(`Login successfull.`);
+        storeTokenInLS(response.token)
+        
       } else {
         toast.error(response.error);
       }

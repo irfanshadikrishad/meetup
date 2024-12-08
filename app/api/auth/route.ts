@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       .eq("email", email)
       .single();
     console.log(existingUser);
-    
+
     // if (existingUserError) {
     //   return new Response(
     //     JSON.stringify({
