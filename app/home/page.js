@@ -91,6 +91,30 @@ const Page = () => {
         }
     }
 
+    async function deleteSlot(slotID) {
+        try {
+            const request = await fetch(`/api/slot`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: slotID })
+            })
+            const response = await request.json()
+            console.log(response);
+            if (request.status === 200) {
+                toast.success(`Slot ${slotID} deleted successfully.`)
+                getUsersSlots()
+            } else {
+                toast.error(response.error)
+            }
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
     useEffect(() => {
         if (user) {
             getUsersSlots();
@@ -140,7 +164,7 @@ const Page = () => {
 
 
                                             <div>
-                                                <button>  <MdDelete className="text-[28px] text-[#ff2f2f]" /></button>
+                                                <button onClick={() => { deleteSlot(slo.id) }}>  <MdDelete className="text-[28px] text-[#ff2f2f]" /></button>
                                             </div>
                                         </div>
                                     </div>
