@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import image from "../../app/Image/imagphone.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
     const [formData, setFormData] = useState({
@@ -22,6 +23,14 @@ const Page = () => {
         e.preventDefault();
         console.log("Form Submitted:", formData);
     };
+
+
+    const router = useRouter(); // Initialize the router
+
+    const handleBack = () => {
+        router.back(); // Navigate back in the history
+    };
+
 
     return (
         <div className="bg-[#ffffff] min-h-screen flex justify-center items-center">
@@ -136,7 +145,7 @@ const Page = () => {
 
                     <Link href="/">
                         <div className="flex justify-center mx-auto mt-[10px]">
-                            <button className="flex items-center justify-center w-1/2 px-5 py-1 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-100">
+                            <button onClick={handleBack} className="flex items-center justify-center w-1/2 px-5 py-1 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-100">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
