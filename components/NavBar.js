@@ -37,18 +37,13 @@ const NavBar = () => {
             </div>
 
             <div>
-              <button className="p-[8px] bg-[#220256] text-white rounded-[10px]">
-                <Link className="" href="/register">
-                  Register
               <button className="p-[8px] bg-[#000000] text-white rounded-[10px]">
                 <Link className="" href="/register">
                   Register now
                 </Link>
               </button>
             </div>
-
             <div>
-              <button className="p-[8px]  bg-[#220256] text-white rounded-[10px]">
               <button className="p-[8px] bg-[#000000] text-white rounded-[10px]">
                 <Link className="" href="/login">
                   Log in
