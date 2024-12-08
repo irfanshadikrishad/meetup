@@ -12,7 +12,7 @@ const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" })
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const { storeTokenInLS } = useAuth()
+  const { storeTokenInLS, deleteTokenInLS } = useAuth()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -32,6 +32,7 @@ const Login = () => {
   async function submitLogin(e) {
     e.preventDefault();
     try {
+      deleteTokenInLS();
       const request = await fetch(`/api/auth/login`, {
         method: "POST",
         headers: {

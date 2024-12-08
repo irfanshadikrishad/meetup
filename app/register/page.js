@@ -88,6 +88,8 @@ const Login = () => {
 
             if (request.status === 201) {
                 toast.success(`Registration success.`);
+                router.push('/login')
+
             } else {
                 console.log(response.error);
                 toast.error(response.error);
