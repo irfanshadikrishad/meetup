@@ -17,15 +17,16 @@ export async function POST(request: Request) {
       .select("id")
       .eq("email", email)
       .single();
-
-    if (existingUserError && existingUserError.code !== "PGRST140") {
-      return new Response(
-        JSON.stringify({
-          error: `Error checking for existing user: ${existingUserError.message}`,
-        }),
-        { status: 500 },
-      );
-    }
+    console.log(existingUser);
+    
+    // if (existingUserError) {
+    //   return new Response(
+    //     JSON.stringify({
+    //       error: `Error checking for existing user: ${existingUserError.message}. data:${existingUser}`,
+    //     }),
+    //     { status: 500 },
+    //   );
+    // }
 
     if (existingUser) {
       return new Response(
