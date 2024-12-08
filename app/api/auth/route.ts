@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     //   );
     // }
 
-    if (existingUser) {
+    if (existingUser?.id) {
       return new Response(
         JSON.stringify({ error: "User with this email already exists." }),
         { status: 400 },
