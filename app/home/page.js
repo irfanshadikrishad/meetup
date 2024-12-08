@@ -4,12 +4,14 @@ import Link from "next/link";
 import image from "../../app/Image/imagphone.png";
 import Image from "next/image";
 import { useAuth } from "../../store/auth";
-import { toast , ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 const Page = () => {
     const { user, authenticate } = useAuth();
+
+    console.log(user);
+
     const [loggedInUser, setLoggedInUser] = useState({});
     const [formData, setFormData] = useState({
         host_id: "",
@@ -26,11 +28,12 @@ const Page = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Submitted:", formData);
+
         if (!user || !user.id) {
             console.log("User is not authenticated.");
             return; // Prevent submission if user is not authenticated
         }
-        
+
         try {
             const request = await fetch(`/api/slot`, {
                 method: "POST",
@@ -39,22 +42,21 @@ const Page = () => {
                 },
                 body: JSON.stringify({
                     host_id: user.id, // Ensure host_id is correctly sent
-                    name: user.name,  // Ensure name is passed correctly
+                    name: user.name, // Ensure name is passed correctly
                     slotDate: formData.slotDate,
                     slotTimeLimit: formData.slotTimeLimit,
                     slotUserLimit: formData.slotUserLimit,
                 }),
             });
-            
+
             const response = await request.json();
             console.log(response);
 
             if (request.status === 200) {
-               toast.success(`Slot created successfully.`)
+                toast.success(`Slot created successfully.`);
             } else {
-                toast.error(`Error creating slot.`)
+                toast.error(`Error creating slot.`);
             }
-
         } catch (error) {
             console.log("Error during API call:", error);
             alert("An error occurred while creating the slot.");
@@ -69,7 +71,15 @@ const Page = () => {
         }
     }, [user, authenticate]);
 
-    return (
+    // Conditional rendering based on the user role
+    if (!user || !user.role) {
+        return <div>Loading...</div>; // Render a loading state while user information is being fetched
+    }
+
+
+    console.log(user.role);
+
+    return user.role === "host" ? (
         <div className="bg-[#ffffff] min-h-screen flex justify-center items-center">
             <div className="flex flex-col m-10 gap-6 md:flex-row w-full max-w-4xl items-center">
                 {/* Image Section */}
@@ -187,8 +197,11 @@ const Page = () => {
                     </Link>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
+    ) : (
+
+        <div>You are not authorized to create a slot.</div>
     );
 };
 
