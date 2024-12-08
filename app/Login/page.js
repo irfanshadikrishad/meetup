@@ -6,12 +6,13 @@ import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../store/auth";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [user, setUser] = useState({email:"", password:""})
+  const [user, setUser] = useState({ email: "", password: "" })
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const {storeTokenInLS} = useAuth()
+  const { storeTokenInLS } = useAuth()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -24,6 +25,9 @@ const Login = () => {
       [name]: value,
     }));
   }
+
+
+  const router = useRouter(); // Initialize the router
 
   async function submitLogin(e) {
     e.preventDefault();
@@ -39,8 +43,9 @@ const Login = () => {
 
       if (request.status === 200) {
         toast.success(`Login successfull.`);
-        storeTokenInLS(response.token)
-        
+        storeTokenInLS(response.token);
+        router.push('/home');
+
       } else {
         toast.error(response.error);
       }
@@ -71,9 +76,9 @@ const Login = () => {
                   Email address
                 </label>
                 <input
-                value={user.email}
-                onChange={(e)=>{handleInputChange(e)}}
-                name="email"
+                  value={user.email}
+                  onChange={(e) => { handleInputChange(e) }}
+                  name="email"
                   type="email"
                   id="email"
                   required
@@ -88,11 +93,11 @@ const Login = () => {
                 </label>
                 <div className="relative mt-2">
                   <input
-                  name="password"
-                  value={user.password}
-                  onChange={(e)=>{
-                    handleInputChange(e)
-                  }}
+                    name="password"
+                    value={user.password}
+                    onChange={(e) => {
+                      handleInputChange(e)
+                    }}
                     type={showPassword ? "text" : "password"}
                     id="password"
                     required
@@ -126,6 +131,7 @@ const Login = () => {
           </div>
 
           {error && <p className="text-red-600 mt-[8px]"> {error}</p>}
+
 
           {/* Login with social account */}
           <div className="flex items-center pt-4 space-x-1">
