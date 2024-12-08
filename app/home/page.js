@@ -9,17 +9,17 @@ import "react-toastify/dist/ReactToastify.css";
 import Container from "../../components/Container";
 
 const Page = () => {
-  const { user, authenticate } = useAuth();
-  const [slots, setSlots] = useState([]);
-  console.log(user);
+    const { user, authenticate } = useAuth();
+    const [slots, setSlots] = useState([]);
+    console.log(user);
 
-  const [loggedInUser, setLoggedInUser] = useState({});
-  const [formData, setFormData] = useState({
-    host_id: "",
-    slotDate: "",
-    slotTimeLimit: "",
-    slotUserLimit: "",
-  });
+    const [loggedInUser, setLoggedInUser] = useState({});
+    const [formData, setFormData] = useState({
+        host_id: "",
+        slotDate: "",
+        slotTimeLimit: "",
+        slotUserLimit: "",
+    });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -53,8 +53,8 @@ const Page = () => {
             console.log(response);
 
             if (request.status === 200) {
-               toast.success(`Slot created successfully.`)
-               getUsersSlots()
+                toast.success(`Slot created successfully.`)
+                getUsersSlots()
             } else {
                 toast.error(`Error creating slot.`)
             }
@@ -65,42 +65,42 @@ const Page = () => {
         }
     };
 
-  async function getUsersSlots() {
-    try {
-      if (user?.id) {
-        const request = await fetch(`/api/slot/user`, {
-          method: "POST",
-          headers: { "Content-Type": "appliation/json" },
-          body: JSON.stringify({ id: user.id }),
-        });
-        const response = await request.json();
-        if (request.status === 200) {
-          setSlots(response);
-        } else {
-          console.log(response);
-          toast.error(response.error);
+    async function getUsersSlots() {
+        try {
+            if (user?.id) {
+                const request = await fetch(`/api/slot/user`, {
+                    method: "POST",
+                    headers: { "Content-Type": "appliation/json" },
+                    body: JSON.stringify({ id: user.id }),
+                });
+                const response = await request.json();
+                if (request.status === 200) {
+                    setSlots(response);
+                } else {
+                    console.log(response);
+                    toast.error(response.error);
+                }
+            } else {
+                console.log(`user id missed`);
+            }
+        } catch (error) {
+            console.log(error);
         }
-      } else {
-        console.log(`user id missed`);
-      }
-    } catch (error) {
-      console.log(error);
     }
-  }
 
-  useEffect(() => {
-      if (user) {
-        getUsersSlots();
-      setLoggedInUser(user);
-    } else {
-      authenticate();
+    useEffect(() => {
+        if (user) {
+            getUsersSlots();
+            setLoggedInUser(user);
+        } else {
+            authenticate();
+        }
+    }, [user, authenticate]);
+
+    // Conditional rendering based on the user role
+    if (!user || !user.role) {
+        return <div>Loading...</div>; // Render a loading state while user information is being fetched
     }
-  }, [user, authenticate]);
-
-  // Conditional rendering based on the user role
-  if (!user || !user.role) {
-    return <div>Loading...</div>; // Render a loading state while user information is being fetched
-  }
 
     console.log(user.role);
 
@@ -110,14 +110,14 @@ const Page = () => {
                 {/* Image Section */}
                 <div className="w-full md:w-1/2 flex -ml-[50px]">
                     {/* Cards */}
-          <div style={{ display: "grid", gap:"5px" }}>
-            {slots.length > 0 && slots.map((slo, idx)=>{
-                return <Link href={`/slot/${slo.id}`} className="w-[full] rounded-[5px] bg-primary text-black p-10" key={idx} >
-                    <p className="text-[18px] font-bold">Host Name: {slo.name}</p>
-                    <p className="text-[18px] font-semibold">Event id: {slo.id}</p>
-                </Link>
-            })}
-          </div>
+                    <div style={{ display: "grid", gap: "5px" }}>
+                        {slots.length > 0 && slots.map((slo, idx) => {
+                            return <Link href={`/slot/${slo.id}`} className="w-[full] rounded-[5px] bg-primary text-black p-10" key={idx} >
+                                <p className="text-[18px] font-bold">Host Name: {slo.name}</p>
+                                <p className="text-[18px] font-semibold">Event id: {slo.id}</p>
+                            </Link>
+                        })}
+                    </div>
                 </div>
 
                 {/* Form Section */}
