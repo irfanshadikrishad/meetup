@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function Slots() {
   const { id } = useParams();
   const { user, authenticate } = useAuth();
+  const { slot, setSlot } = useState({});
   const [slotter, setSlotter] = useState({
     name: "",
     date: "",
@@ -40,6 +41,8 @@ export default function Slots() {
       });
 
       const response = await request.json();
+      console.log(response);
+      setSlot(response)
       if (request.status === 200) {
         setSlotter(response);
       } else {
@@ -89,7 +92,7 @@ export default function Slots() {
   };
 
   // Book Slot Function
-  async function bookSlot(slot_id, guest_id) {
+  async function bookSlot(slot_id, guest_id, host_id) {
     if (isBooked) {
       toast.error("You have already booked this slot.");
       return;
@@ -101,7 +104,7 @@ export default function Slots() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ slot_id, user_id: guest_id }),
+        body: JSON.stringify({ slot_id, user_id: host_id, }),
       });
 
       const response = await request.json();
@@ -289,7 +292,7 @@ export default function Slots() {
               className="rounded-[8px] center"
               style={{ padding: "15px", fontSize: "20px", backgroundColor: isBooked ? "green" : "#a595f9" }}
               onClick={() => {
-                bookSlot(id, user.id);
+                bookSlot(id, user.id, slot.host_id);
               }}
             >
               Book
