@@ -16,8 +16,7 @@ export async function POST(request: Request) {
       .from('bookings')
       .select('status')
       .eq('slot_id', slot_id)
-      .eq('user_id', user_id)
-      .single(); 
+      .eq('user_id', user_id);
 
     if (error) {
       return new Response(
@@ -25,17 +24,29 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+
     console.log(data);
-    
-    if (!data) {
+
+    // Handle the case where no rows are returned
+    if (data.length === 0) {
       return new Response(
         JSON.stringify({ message: 'User has not booked this slot' }),
         { status: 404 }
       );
     }
 
+    // Handle the case where multiple rows are returned
+    if (data.length > 1) {
+      return new Response(
+        JSON.stringify({ error: 'Unexpected error: multiple bookings found for this slot and user' }),
+        { status: 500 }
+      );
+    }
+
+    // Successfully found one booking record
+    const booking = data[0];  // Data contains an array of rows, so access the first element
     return new Response(
-      JSON.stringify({ message: `Booking status: ${data.status}`, status: 200 })
+      JSON.stringify({ message: `Booking status: ${booking.status}`, status: 200 })
     );
   } catch (error) {
     return new Response(

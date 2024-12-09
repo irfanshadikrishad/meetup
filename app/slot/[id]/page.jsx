@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Slots() {
   const { id } = useParams();
-  const { user , authenticate} = useAuth();
+  const { user, authenticate } = useAuth();
   const [slotter, setSlotter] = useState({
     name: "",
     date: "",
@@ -117,30 +117,35 @@ export default function Slots() {
 
   // Check if user has already booked the slot
   async function checkBookedOrNot() {
-    try {
-      await authenticate()
-      if (user.id) {
-        const request = await fetch(`/api/slot/book/check`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ slot_id: id, user_id: user.id }),
-        });
+    if (!user || !user.id) {
+      // If user is not available yet, return early
+      console.log("User data not available yet.");
+      return;
+    }
 
-        const response = await request.json();
-        if (request.status === 200) {
-          if (response.booked) {
-            setIsBooked(true);
-            toast.info("You have already booked this slot.");
-          } else {
-            setIsBooked(false);
-          }
+    try {
+      const request = await fetch(`/api/slot/book/check`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slot_id: id, user_id: user.id }),
+      });
+
+      const response = await request.json();
+      console.log(response);
+      
+      if (request.status === 200) {
+        if (response.booked) {
+          setIsBooked(true);
+          toast.info("You have already booked this slot.");
         } else {
-          toast.error(response.error || "Failed to check booking status.");
+          setIsBooked(false);
+                    toast.info(response.message);
+
         }
-      }else{
-        console.log(`user null`);        
+      } else {
+        toast.error(response.error || "Failed to check booking status.");
       }
     } catch (error) {
       toast.error(`Error checking booking status, ${(error).message}`);
@@ -149,8 +154,12 @@ export default function Slots() {
 
   useEffect(() => {
     getSlotDetails();
-    checkBookedOrNot();
-  }, [id]);
+
+    // Check booking status only if user is available
+    if (user && user.id) {
+      checkBookedOrNot();
+    }
+  }, [id, user]); // Trigger effect whenever user or id changes
 
   return (
     <section className="flex flex-col items-center">
@@ -278,9 +287,7 @@ export default function Slots() {
           <section>
             <button
               className="rounded-[8px] center"
-              style={{ padding: "15px", fontSize: "20px",
-                backgroundColor: isBooked ? "green" : "#a595f9"
-               }}
+              style={{ padding: "15px", fontSize: "20px", backgroundColor: isBooked ? "green" : "#a595f9" }}
               onClick={() => {
                 bookSlot(id, user.id);
               }}
