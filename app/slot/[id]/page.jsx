@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function Slots() {
   const { id } = useParams();
   const { user, authenticate } = useAuth();
-  const { slot, setSlot } = useState({});
+  const [slot, setSlot] = useState({});
   const [slotter, setSlotter] = useState({
     name: "",
     date: "",
@@ -137,14 +137,14 @@ export default function Slots() {
 
       const response = await request.json();
       console.log(response);
-      
+
       if (request.status === 200) {
         if (response.booked) {
           setIsBooked(true);
           toast.info("You have already booked this slot.");
         } else {
           setIsBooked(false);
-                    toast.info(response.message);
+          toast.info(response.message);
 
         }
       } else {
@@ -169,9 +169,8 @@ export default function Slots() {
       <div className="w-[80%] rounded-[5px] bg-secondary p-6 text-black">
         {message && (
           <div
-            className={`mb-4 px-4 py-2 rounded-md ${
-              message.type === "success" ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
-            }`}
+            className={`mb-4 px-4 py-2 rounded-md ${message.type === "success" ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
+              }`}
           >
             {message.text}
           </div>
@@ -187,9 +186,8 @@ export default function Slots() {
               value={slotter.name ? slotter.name : ""}
               onChange={handleInputChange}
               disabled={!editState.name}
-              className={`w-full px-4 py-2 border rounded-md ${
-                editState.name ? "bg-white" : "bg-gray-200 cursor-not-allowed"
-              }`}
+              className={`w-full px-4 py-2 border rounded-md ${editState.name ? "bg-white" : "bg-gray-200 cursor-not-allowed"
+                }`}
             />
           </div>
         </div>
@@ -204,9 +202,8 @@ export default function Slots() {
               value={slotter.date ? slotter.date : ""}
               onChange={handleInputChange}
               disabled={!editState.date}
-              className={`w-full px-4 py-2 border rounded-md ${
-                editState.date ? "bg-white" : "bg-gray-200 cursor-not-allowed"
-              }`}
+              className={`w-full px-4 py-2 border rounded-md ${editState.date ? "bg-white" : "bg-gray-200 cursor-not-allowed"
+                }`}
             />
             {user && user.role !== "guest" && (
               <MdEdit
@@ -227,9 +224,8 @@ export default function Slots() {
               value={slotter.time_limit ? slotter.time_limit : ""}
               onChange={handleInputChange}
               disabled={!editState.time_limit}
-              className={`w-full px-4 py-2 border rounded-md ${
-                editState.time_limit ? "bg-white" : "bg-gray-200 cursor-not-allowed"
-              }`}
+              className={`w-full px-4 py-2 border rounded-md ${editState.time_limit ? "bg-white" : "bg-gray-200 cursor-not-allowed"
+                }`}
             />
             {user && user.role !== "guest" && (
               <MdEdit
@@ -250,9 +246,8 @@ export default function Slots() {
               value={slotter.user_limit ? slotter.user_limit : ""}
               onChange={handleInputChange}
               disabled={!editState.user_limit}
-              className={`w-full px-4 py-2 border rounded-md ${
-                editState.user_limit ? "bg-white" : "bg-gray-200 cursor-not-allowed"
-              }`}
+              className={`w-full px-4 py-2 border rounded-md ${editState.user_limit ? "bg-white" : "bg-gray-200 cursor-not-allowed"
+                }`}
             />
             {user && user.role !== "guest" && (
               <MdEdit

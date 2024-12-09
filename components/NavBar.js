@@ -73,6 +73,25 @@ const NavBar = () => {
                     </button>
                   </div>
                 </div>
+
+                {
+                  user.rule == 'host' && <>
+
+                    <div>
+                      <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                        <Link className="" href="/home">
+                          Create slot
+
+                        </Link>
+                      </button>
+                    </div>
+
+
+                  </>
+                }
+
+
+
               </> : <>
 
 
