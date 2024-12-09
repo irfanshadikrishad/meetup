@@ -38,7 +38,7 @@ const NavBar = () => {
 
           <div className="flex justify-between items-center gap-2">
             <div className="flex items-center  space-x-2 text-sm">
-              {/* <p>{`${time.hours}:${time.minutes}`}</p>
+              {/* <p>{${time.hours}:${time.minutes}}</p>
                             <span className='w-1'>•</span>
                             <p>{time.dayOfWeek}</p>
                             <p>{time.day}</p>
@@ -73,6 +73,25 @@ const NavBar = () => {
                     </button>
                   </div>
                 </div>
+
+                {
+                  user.rule == 'host' && <>
+
+                    <div>
+                      <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                        <Link className="" href="/home">
+                          Create slot
+
+                        </Link>
+                      </button>
+                    </div>
+
+
+                  </>
+                }
+
+
+
               </> : <>
 
 

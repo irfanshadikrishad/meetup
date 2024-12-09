@@ -50,7 +50,14 @@ const Login = () => {
       newErrors.password = "Password is required.";
     } else if (user.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
+    } else if (!/(?=.*[a-z])/.test(user.password)) {
+      newErrors.password = "Password must include at least one lowercase letter.";
+    } else if (!/(?=.*[A-Z])/.test(user.password)) {
+      newErrors.password = "Password must include at least one uppercase letter.";
+    } else if (!/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(user.password)) {
+      newErrors.password = "Password must include at least one special character.";
     }
+
 
     if (!user.c_password) {
       newErrors.c_password = "Please confirm your password.";
