@@ -7,10 +7,11 @@ import { getCurrentTime, getFormattedDateTime } from "../utils/helpers"; // Impo
 import Link from "next/link";
 import { useAuth } from "../store/auth";
 import { useRouter } from "next/navigation";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const NavBar = () => {
   const [time, setTime] = useState(getFormattedDateTime);
-  const { user, authenticate, deleteTokenInLS} = useAuth();
+  const { user, authenticate, deleteTokenInLS } = useAuth();
   const router = useRouter()
 
   useEffect(() => {
@@ -20,6 +21,9 @@ const NavBar = () => {
     // }, 0);
     // return () => clearInterval(interval);
   }, []);
+
+
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="bg-primary p-2">
@@ -39,7 +43,7 @@ const NavBar = () => {
                             <p>{time.dayOfWeek}</p>
                             <p>{time.day}</p>
                             <p>{time.month}</p> */}
-              <p className="text-[18px] font-bold mr-2">
+              <p className="text-[18px] hidden sm:block font-bold mr-2">
                 {getFormattedDateTime()}
               </p>
             </div>
@@ -49,45 +53,128 @@ const NavBar = () => {
 
 
 
-                <div>
-                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
-                    <Link className="" href="/">
-                      {user.name}
+                <div className="hidden sm:flex gap-3">
+                  <div>
+                    <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                      <Link className="" href="/">
+                        {user.name}
 
-                    </Link>
-                  </button>
-                </div>
-                <div>
-                  <button onClick={()=>{
-                    deleteTokenInLS()
-                    router.push('/login')
-                  }} className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
-                    <Link className="" href="/login">
-                      Log out
-                    </Link>
-                  </button>
+                      </Link>
+                    </button>
+                  </div>
+                  <div>
+                    <button onClick={() => {
+                      deleteTokenInLS()
+                      router.push('/login')
+                    }} className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                      <Link className="" href="/login">
+                        Log out
+                      </Link>
+                    </button>
+                  </div>
                 </div>
               </> : <>
-                <div>
-                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
-                    <Link className="" href="/register">
-                      Register
-                    </Link>
-                  </button>
-                </div>
-                <div>
-                  <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
-                    <Link className="" href="/login">
-                      Log in
-                    </Link>
-                  </button>
+
+
+                <div className="hidden sm:flex gap-3">
+
+                  <div >
+                    <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                      <Link className="" href="/register">
+                        Register
+                      </Link>
+                    </button>
+                  </div>
+                  <div>
+                    <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                      <Link className="" href="/login">
+                        Log in
+                      </Link>
+                    </button>
+                  </div>
+
+
+
                 </div>
 
 
               </>
             }
           </div>
+
+
+
+          {/* Mobile responsive */}
+
+          <div className={`block lg:hidden  bg-[#b5b3b3] lg:col-span-3  absolute lg:static lg:w-auto top-0 left-0 overflow-hidden h-full lg:h-auto duration-500 lg:bg-[transparent] lg:p-0 z-30 ${open ? "w-[85%]  p-5" : "w-0"}`}>
+
+            <div className='flex  justify-between'>
+              <ul className='flex  flex-col pl-[30px] pt-[20px] '>
+
+                {
+                  user ? <>
+
+
+
+                    <div>
+                      <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                        <Link className="" href="/">
+                          {user.name}
+
+                        </Link>
+                      </button>
+                    </div>
+                    <div>
+                      <button onClick={() => {
+                        deleteTokenInLS()
+                        router.push('/login')
+                      }} className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                        <Link className="" href="/login">
+                          Log out
+                        </Link>
+                      </button>
+                    </div>
+
+
+
+
+
+
+                  </> : <>
+                    <div>
+                      <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                        <Link className="" href="/register">
+                          Register
+                        </Link>
+                      </button>
+                    </div>
+                    <div>
+                      <button className="p-[8px] bg-[#A594F9] font-bold text-white rounded-[10px]">
+                        <Link className="" href="/login">
+                          Log in
+                        </Link>
+                      </button>
+                    </div>
+
+
+                  </>
+                }
+
+
+              </ul>
+
+              <FaTimes onClick={() => setOpen(!open)} className='w-[24px] h-[24px] text-amber-200' />
+            </div>
+          </div>
+
+
+
+          <button onClick={() => setOpen(!open)} className='block lg:hidden'>{open ? <> </> : <FaBars className='w-[24px] h-[24px] text-amber-200' />}</button>
         </div>
+
+
+
+
       </Container>
     </div>
   );
